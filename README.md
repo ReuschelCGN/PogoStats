@@ -95,9 +95,7 @@ update the monitoring container with
 `docker-compose build pgsapp`
 and update the grafana and database container with 
 `docker-compose pull grafana && docker-compose pull pgsdb`
-`docker-compose up -d pgsdb`
-`docker-compose up -d grafana && docker-compose up -d pgsapp`
-4. Start the containers again with `docker-compose up`. You may need to update the DB by hand since this tool does not have some sort of automatism to do that automatically. Every SQL update is basically a file in the sql directory. Check your current version with the `VERSION` file in the base directory and import the missing versions one by one via the commandline: `docker exec -i pogostats_database_1 mysql -u grafana -pchangeme grafana < sql/02_update.sql` for example. Make sure to adjust the mysql commandline parameters of course.
+4. Start the containers again with `docker-compose up -d pgsdb` and `docker-compose up -d grafana && docker-compose up -d pgsapp`. You may need to update the DB by hand since this tool does not have some sort of automatism to do that automatically. Every SQL update is basically a file in the sql directory. Check your current version with the `VERSION` file in the base directory and import the missing versions one by one via the commandline: `docker exec -i pogostats_database_1 mysql -u grafana -pchangeme grafana < sql/02_update.sql` for example. Make sure to adjust the mysql commandline parameters of course.
 
 
 ## Extras
