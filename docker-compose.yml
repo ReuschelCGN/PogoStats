@@ -69,3 +69,25 @@ services:
       - pgsdb
     networks:
       - default
+
+  acwr:
+    container_name: acwr
+    build:
+      context: ./PogoStats
+      dockerfile: Dockerfile.acwr
+    restart: always
+    tty: true
+    environment: 
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./PogoStats/acwreceiver/config.ini:/usr/src/app/config.ini
+    depends_on:
+      - pgsdb
+    networks:
+      - default
+    ports:
+      - "3050:3050"
