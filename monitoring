@@ -39,7 +39,7 @@ function check_nearby () {
     if [ $SCANNER_TYPE == "MAD" ]; then
         nearby=$(scanner_sql "SELECT COUNT(*) FROM pokemon WHERE disappear_time > UTC_TIMESTAMP() AND (seen_type='nearby_cell' OR seen_type='nearby_stop')")
     elif [ $SCANNER_TYPE == "RDM" ]; then
-        nearby=$(scanner_sql "SELECT COUNT(*) FROM pokemon WHERE expire_timestamp > UNIX_TIMESTAMP() AND (pokestop_id IS NOT NULL OR cell_id IS NOT NULL)")
+        nearby=$(scanner_sql "SELECT COUNT(*) FROM pokemon WHERE expire_timestamp > UNIX_TIMESTAMP() AND (seen_type='nearby_cell' OR seen_type='nearby_stop')")
     fi
     echo "$(date +'%F %T') | Current nearby Pokémon: $nearby"
     grafana_sql 'INSERT INTO nearby_data(timestamp,value) VALUES(now(),"'"$nearby"'")'
@@ -59,7 +59,7 @@ function check_tr () {
     if [ $SCANNER_TYPE == "MAD" ]; then
         tr=$(scanner_sql "SELECT COUNT(*) FROM pokestop WHERE incident_expiration > UTC_TIMESTAMP()")
     elif [ $SCANNER_TYPE == "RDM" ]; then
-        tr=$(scanner_sql "SELECT COUNT(*) FROM pokestop WHERE grunt_type is not null")
+        tr=$(scanner_sql "SELECT COUNT(*) FROM incident WHERE \`character\` > 499")
     fi
     echo "$(date +'%F %T') | Current Team GO Rocket Stops: $tr"
     grafana_sql 'INSERT INTO tr_data(timestamp,value) VALUES(now(),"'"$tr"'")'
