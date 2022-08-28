@@ -8,10 +8,11 @@ Current collected stats are:
 
 - Live Pokémon
 - Live Pokémon with IV
+- Live nearby Pokémon
 - Raids (split into their levels)
 - Unkown Spawnpoints
 - Quests (with AR/no AR/both)
-- Live Team GO Rocket & npc stops
+- Live Team GO Rocket stops (split into Grunts and Boss) & npc stops
 - Uptime Statistics for Devices
 
 Additional Aconf WH Receiver:
