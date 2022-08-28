@@ -9,6 +9,6 @@ WORKDIR /usr/src/app
 COPY ./requirements-acwr.txt .
 RUN pip3 install -r requirements-acwr.txt
 ENV PYTHONUNBUFFERED 1
-COPY ./acwreceiver /usr/src/app/
+COPY ./acwreceiver/start_whreceiver.py /usr/src/app/start_whreceiver.py
 
 CMD ["python3", "start_whreceiver.py"]
