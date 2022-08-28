@@ -1,57 +1,71 @@
 version: '3.5'
-
 services:
-    grafana:
-        restart: always
-        build:
-            context: .
-            dockerfile: Dockerfile.grafana
-            args:
-               - GF_INSTALL_IMAGE_RENDERER_PLUGIN=true
-               - GRAFANA_VERSION=latest
-        volumes:
-            - ./grafana_data:/var/lib/grafana
-            - ./grafana/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
-            - ./grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
-            - ./grafana/dashboards/:/etc/grafana/provisioning/dashboards/
-        environment: 
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-            GF_SERVER_DOMAIN: ${GF_SERVER_DOMAIN}
-            GF_SERVER_ROOT_URL: ${GF_SERVER_ROOT_URL}
-        ports:
-            - "${GRAFANA_PORT}:3000"
+  grafana:
+  container_name: grafana
+  restart: always
+    build:
+      context: ./PogoStats
+      dockerfile: Dockerfile.grafana
+      args:
+        - GF_INSTALL_IMAGE_RENDERER_PLUGIN=true
+        - GRAFANA_VERSION=latest
+    environment: 
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      GF_SERVER_DOMAIN: ${GF_SERVER_DOMAIN}
+      GF_SERVER_ROOT_URL: ${GF_SERVER_ROOT_URL}
+    volumes:
+      - ./PogoStats/grafana_data:/var/lib/grafana
+      - ./PogoStats/grafana/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./PogoStats/grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
+      - ./PogoStats/grafana/dashboards/:/etc/grafana/provisioning/dashboards/
+    depends_on:
+      - pgsdb
+    networks:
+      - default
+    ports:
+      - "${GRAFANA_PORT}:3000"
 
-    database:
-        restart: always
-        image: mariadb:10.3
-        volumes:
-            - ./db:/var/lib/mysql
-            - ./sql:/docker-entrypoint-initdb.d
-        command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--innodb-flush-method=littlesync', '--innodb-use-native-aio=OFF']
-        environment:
-            MYSQL_RANDOM_ROOT_PASSWORD: 1
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  pgsdb:
+    container_name: pgsdb
+    restart: always
+    image: mariadb:10.3
+    volumes:
+      - ./PogoStats/db:/var/lib/mysql
+      - ./PogoStats/sql:/docker-entrypoint-initdb.d
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--innodb-flush-method=littlesync', '--innodb-use-native-aio=OFF']
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - default
+    ports:
+      - "3308:3306"
 
-    app:
-        restart: always
-        build: .
-        volumes:
-            - ${MYSQL_SOCK}:/run/mysqld/mysqld.sock
-        environment: 
-            GRAFANA_DATABASE: ${MYSQL_DATABASE}
-            GRAFANA_USER: ${MYSQL_USER}
-            MYSQL_PWD: ${MYSQL_PASSWORD}
-            MYSQL_CONNECTION_TYPE: ${MYSQL_CONNECTION_TYPE}
-            SCANNER_TYPE: ${SCANNER_TYPE}
-            SCANNER_HOST: ${SCANNER_HOST}
-            SCANNER_PORT: ${SCANNER_PORT}
-            SCANNER_USER: ${SCANNER_USER}
-            SCANNER_PASSWORD: ${SCANNER_PASSWORD}
-            SCANNER_DATABASE: ${SCANNER_DATABASE}
-            STATUS_DOWN: ${STATUS_DOWN}
-            CLEANUP_DAYS: ${CLEANUP_DAYS}
-
+  pgsapp:
+    container_name: pgsapp
+    restart: always
+    build:
+      context: ./PogoStats
+    volumes:
+      - ${MYSQL_SOCK}:/run/mysqld/mysqld.sock
+    environment: 
+      GRAFANA_DATABASE: ${MYSQL_DATABASE}
+      GRAFANA_USER: ${MYSQL_USER}
+      MYSQL_PWD: ${MYSQL_PASSWORD}
+      MYSQL_CONNECTION_TYPE: ${MYSQL_CONNECTION_TYPE}
+      SCANNER_TYPE: ${SCANNER_TYPE}
+      SCANNER_HOST: ${SCANNER_HOST}
+      SCANNER_PORT: ${SCANNER_PORT}
+      SCANNER_USER: ${SCANNER_USER}
+      SCANNER_PASSWORD: ${SCANNER_PASSWORD}
+      SCANNER_DATABASE: ${SCANNER_DATABASE}
+      STATUS_DOWN: ${STATUS_DOWN}
+      CLEANUP_DAYS: ${CLEANUP_DAYS}
+    depends_on:
+      - pgsdb
+    networks:
+      - default
