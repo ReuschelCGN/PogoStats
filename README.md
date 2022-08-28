@@ -84,14 +84,14 @@ Grafana is the tool to visualize the collected data. It comes with a preconfigur
 
 Updating this tool is a multi step process:
 
-1. Update the git with  `git pull`
+1. Update the git with 
+`cd PogoStats` 
+`git pull https://github.com/ReuschelCGN/PogoStats.git devrework` 
+`cd ..`
 2. Compare your `.env` with `.env.example` and adjust it when needed
 3. Update the containers. Stop your PogoStats containers with 
 `docker-compose stop grafana && docker-compose stop pgsapp && docker-compose stop pgsdb`, 
 update the monitoring container with 
-`cd PogoStats`
-`git pull https://github.com/ReuschelCGN/PogoStats.git devrework`
-`cd ..`
 `docker-compose build pgsapp`
 and update the grafana and database container with 
 `docker-compose pull grafana && docker-compose pull pgsdb`
