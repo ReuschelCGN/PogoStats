@@ -1,4 +1,4 @@
-# Basic Docker image for Aconf WH Receiver
+# Docker image for Aconf WH Receiver
 
 FROM python:3.8.10
 
