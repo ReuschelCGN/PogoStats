@@ -45,7 +45,11 @@ mkdir grafana_data && chown 472:472 grafana_data/
 Start the containers in the background and watch the logs:
 
 ```bash
-docker-compose up -d && docker-compose logs -f
+docker-compose up -d pgsdb
+docker-compose up -d pgsapp
+docker-compose up -d grafana
+docker-compose logs -f grafana
+docker-compose logs -f pgsapp
 ```
 
 ## Configuration
@@ -82,7 +86,17 @@ Updating this tool is a multi step process:
 
 1. Update the git with  `git pull`
 2. Compare your `.env` with `.env.example` and adjust it when needed
-3. Update the containers. Stop your current containers with `docker-compose down`, re-build the monitoring and grafana container with `docker-compose build --pull` and update the database container with `docker-compose pull`
+3. Update the containers. Stop your PogoStats containers with 
+`docker-compose stop grafana && docker-compose stop pgsapp && docker-compose stop pgsdb`, 
+update the monitoring container with 
+`cd PogoStats`
+`git pull https://github.com/muckelba/PogoStats.git`
+`cd ..`
+`docker-compose build pgsapp`
+and update the grafana and database container with 
+`docker-compose pull grafana && docker-compose pull pgsdb`
+`docker-compose up -d pgsdb`
+`docker-compose up -d grafana && docker-compose up -d pgsapp`
 4. Start the containers again with `docker-compose up`. You may need to update the DB by hand since this tool does not have some sort of automatism to do that automatically. Every SQL update is basically a file in the sql directory. Check your current version with the `VERSION` file in the base directory and import the missing versions one by one via the commandline: `docker exec -i pogostats_database_1 mysql -u grafana -pchangeme grafana < sql/02_update.sql` for example. Make sure to adjust the mysql commandline parameters of course.
 
 
