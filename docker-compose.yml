@@ -88,7 +88,6 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - ./PogoStats/acwreceiver/config.ini:/usr/src/app/config.ini
     depends_on:
       - pgsdb
     networks:
