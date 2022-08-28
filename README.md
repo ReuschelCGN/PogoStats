@@ -87,15 +87,16 @@ Updating this tool is a multi step process:
 1. Update the git with 
 `cd PogoStats` 
 `git pull https://github.com/ReuschelCGN/PogoStats.git devrework` 
-`cd ..`
-2. Compare your `.env` with `.env.example` and adjust it when needed
+`cd ..`.
+2. Compare your `.env` with `.env.example` and adjust it when needed.
 3. Update the containers. Stop your PogoStats containers with 
 `docker-compose stop grafana && docker-compose stop pgsapp && docker-compose stop pgsdb`, 
 update the monitoring container with 
 `docker-compose build pgsapp`
 and update the grafana and database container with 
-`docker-compose pull grafana && docker-compose pull pgsdb`
-4. Start the containers again with `docker-compose up -d pgsdb` and `docker-compose up -d grafana && docker-compose up -d pgsapp`. You may need to update the DB by hand since this tool does not have some sort of automatism to do that automatically. Every SQL update is basically a file in the sql directory. Check your current version with the `VERSION` file in the base directory and import the missing versions one by one via the commandline: `docker exec -i pgsdb mysql -u grafana -pchangeme grafana < sql/05_update.sql` for example. Make sure to adjust the mysql commandline parameters of course.
+`docker-compose pull grafana && docker-compose pull pgsdb`.
+4. Start the DB container again with `docker-compose up -d pgsdb`. You may need to update the DB by hand since this tool does not have some sort of automatism to do that automatically. Every SQL update is basically a file in the sql directory. Check your current version with the `VERSION` file in the base directory and import the missing versions one by one via the commandline: `docker exec -i pgsdb mysql -u grafana -pchangeme grafana < sql/05_update.sql` for example. Make sure to adjust the mysql commandline parameters of course.
+5. Start the grafana and monitor containers again with `docker-compose up -d grafana && docker-compose up -d pgsapp`.
 
 
 ## Extras
