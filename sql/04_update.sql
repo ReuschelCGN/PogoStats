@@ -1,4 +1,4 @@
-CREATE TABLE `nearby_data` (
+CREATE TABLE IF NOT EXISTS `nearby_data` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `timestamp` datetime NOT NULL,
   `value` int(11) DEFAULT NULL,
