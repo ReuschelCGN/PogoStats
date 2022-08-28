@@ -1,9 +1,9 @@
 # Webhook receiver for getting data from ATV devices
 # replacement for ATVdetails
-#
+
 __author__ = "GhostTalker and Apple314"
 __copyright__ = "Copyright 2022, The GhostTalker project"
-__version__ = "0.1.5"
+__version__ = "0.1.5.a"
 __status__ = "DEV"
 
 import os
@@ -12,24 +12,20 @@ import time
 import datetime
 import json
 import requests
-import configparser
 import pymysql
 from mysql.connector import Error
 from mysql.connector import pooling
 from flask import Flask, request
 from flask_caching import Cache
 
-## read config
-_config = configparser.ConfigParser()
-_rootdir = os.path.dirname(os.path.abspath('config.ini'))
-_config.read(_rootdir + "/config.ini")
-_host = _config.get("socketserver", "host", fallback='0.0.0.0')
-_port = _config.get("socketserver", "port", fallback='5050')
-_mysqlhost = _config.get("mysql", "mysqlhost", fallback='127.0.0.1')
-_mysqlport = _config.get("mysql", "mysqlport", fallback='3306')
-_mysqldb = _config.get("mysql", "mysqldb")
-_mysqluser = _config.get("mysql", "mysqluser")
-_mysqlpass = _config.get("mysql", "mysqlpass")
+## get env config
+_host = os.getenv('WH_HOST', '0.0.0.0')
+_port = os.getenv('WH_PORT', '5050')
+_mysqlhost = os.getenv('MYSQL_HOST', 'pgsdb')
+_mysqlport = os.getenv('MYSQL_PORT', '3306')
+_mysqldb = os.getenv('MYSQL_DATABASE', 'grafana')
+_mysqluser = os.getenv('MYSQL_USER', 'grafana')
+_mysqlpass = os.getenv('MYSQL_PASSWORD', 'changeme')
 
 ## set cache 
 config = {
