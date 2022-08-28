@@ -77,7 +77,11 @@ services:
       dockerfile: Dockerfile.acwr
     restart: always
     tty: true
-    environment: 
+    environment:
+      WH_HOST: 0.0.0.0
+      WH_PORT: 3050
+      MYSQL_HOST: pgsdb
+      MYSQL_PORT: 3306
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
