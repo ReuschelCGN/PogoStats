@@ -90,7 +90,7 @@ Updating this tool is a multi step process:
 `docker-compose stop grafana && docker-compose stop pgsapp && docker-compose stop pgsdb`, 
 update the monitoring container with 
 `cd PogoStats`
-`git pull https://github.com/muckelba/PogoStats.git`
+`git pull https://github.com/ReuschelCGN/PogoStats.git devrework`
 `cd ..`
 `docker-compose build pgsapp`
 and update the grafana and database container with 
