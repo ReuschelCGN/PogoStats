@@ -5,7 +5,7 @@ datasources:
     isDefault: true
     uid: 000000001
     type: mysql
-    url: database:3306
+    url: pgsdb:3306
     database: $MYSQL_DATABASE
     user: $MYSQL_USER
     secureJsonData:
