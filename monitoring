@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function grafana_sql() {
-    mysql -h database -u "$GRAFANA_USER" -D "$GRAFANA_DATABASE" -N -B -e "$1"
+    mysql -h pgsdb -u "$GRAFANA_USER" -D "$GRAFANA_DATABASE" -N -B -e "$1"
 }
 
 function scanner_sql() {
