@@ -6,9 +6,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update \
 && apt-get install -y --no-install-recommends
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
-COPY ./requirements.txt .
-RUN pip3 install -r requirements.txt
+COPY ./requirements-acwr.txt .
+RUN pip3 install -r requirements-acwr.txt
 ENV PYTHONUNBUFFERED 1
-COPY . /usr/src/app/
+COPY ./acwreceiver /usr/src/app/
 
 CMD ["python3", "start_whreceiver.py"]
