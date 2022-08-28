@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -26,48 +29,106 @@
   "liveNow": false,
   "panels": [
     {
-      "aliasColors": {
-        "Pokémon": "dark-orange"
+      "datasource": {
+        "type": "mysql",
+        "uid": "000000001"
       },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "decimals": 0,
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Count",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Pokémon"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 0
       },
-      "hiddenSeries": false,
       "id": 2,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "8.4.0-beta1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "9.1.0",
       "targets": [
         {
           "datasource": {
@@ -185,85 +246,100 @@
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Current Pokémon",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:1227",
-          "decimals": 0,
-          "format": "none",
-          "label": "Count",
-          "logBase": 1,
-          "min": "0",
-          "show": true
-        },
-        {
-          "$$hashKey": "object:1228",
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "decimals": 0,
-      "fill": 1,
-      "fillGradient": 0,
+      "datasource": {
+        "type": "mysql",
+        "uid": "000000001"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Count",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 0
       },
-      "hiddenSeries": false,
       "id": 6,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": true,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "8.4.0-beta1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "9.1.0",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -298,6 +374,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -332,6 +412,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -366,6 +450,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -400,6 +488,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -432,104 +524,325 @@
               "type": "macro"
             }
           ]
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Current Raids",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "none",
-          "label": "Count",
-          "logBase": 1,
-          "min": "0",
-          "show": true
         },
         {
-          "format": "short",
-          "logBase": 1,
-          "min": "0",
-          "show": false
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  raids_7 AS \"Level 7\"\nFROM raid_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "F",
+          "select": [
+            [
+              {
+                "params": [
+                  "raids_7"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Level 7"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "raid_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  raids_8 AS \"Level 8\"\nFROM raid_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "G",
+          "select": [
+            [
+              {
+                "params": [
+                  "raids_8"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Level 8"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "raid_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
-      "yaxis": {
-        "align": false
-      }
+      "title": "Current Raids",
+      "type": "timeseries"
     },
     {
-      "aliasColors": {
-        "Quests": "blue"
+      "datasource": {
+        "type": "mysql",
+        "uid": "000000001"
       },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "decimals": 0,
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Count",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Quests"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 9
       },
-      "hiddenSeries": false,
       "id": 11,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "8.4.0-beta1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "9.1.0",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": "SELECT\n  timestamp AS \"time\",\n  value AS \"Rocket Stops\"\nFROM tr_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  value_total AS \"Rocket Stops\"\nFROM tr_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
           "refId": "A",
           "select": [
             [
               {
                 "params": [
-                  "value"
+                  "value_total"
                 ],
                 "type": "column"
               },
               {
                 "params": [
-                  "Rocket Stops"
+                  "Total Rocket Stops"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "tr_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  grunt AS \"Grunt Rocket Stops\"\nFROM tr_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "grunt"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Grunt Rocket Stops"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "tr_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  boss AS \"Boss Rocket Stops\"\nFROM tr_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "C",
+          "select": [
+            [
+              {
+                "params": [
+                  "boss"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Boss Rocket Stops"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "tr_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  npc AS \"NPC Stops\"\nFROM tr_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "D",
+          "select": [
+            [
+              {
+                "params": [
+                  "npc"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "NPC Stops"
                 ],
                 "type": "alias"
               }
@@ -547,97 +860,159 @@
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Team GO Rocket Stops",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "none",
-          "label": "Count",
-          "logBase": 1,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {
-        "Quests": "blue"
+      "datasource": {
+        "type": "mysql",
+        "uid": "000000001"
       },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "decimals": 0,
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Count",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
           "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
           "unit": "none"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Quests"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 9
       },
-      "hiddenSeries": false,
       "id": 4,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "8.4.0-beta1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "9.1.0",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": "SELECT\n  timestamp AS \"time\",\n  value AS \"Quests\"\nFROM quest_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  value_total AS \"Total Quests\"\nFROM quest_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
           "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value_total"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Total Quests"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "quest_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  value AS \"Quests mit AR\"\nFROM quest_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "B",
           "select": [
             [
               {
@@ -648,7 +1023,45 @@
               },
               {
                 "params": [
-                  "Quests"
+                  "Quests mit AR"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "quest_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  value_alt AS \"Quests ohne AR\"\nFROM quest_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "C",
+          "select": [
+            [
+              {
+                "params": [
+                  "value_alt"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Quests ohne AR"
                 ],
                 "type": "alias"
               }
@@ -666,37 +1079,8 @@
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Quests",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "none",
-          "label": "Count",
-          "logBase": 1,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "alert": {
@@ -734,57 +1118,113 @@
         "noDataState": "alerting",
         "notifications": []
       },
-      "aliasColors": {
-        "Unkown Spawnpoints": "dark-red"
+      "datasource": {
+        "type": "mysql",
+        "uid": "000000001"
       },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "decimals": 0,
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Count",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "decimals": 0,
           "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 50
+              }
+            ]
+          },
           "unit": "none"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Unkown Spawnpoints"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
         "y": 18
       },
-      "hiddenSeries": false,
       "id": 8,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "8.4.0-beta1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "9.1.0",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -819,53 +1259,12 @@
           ]
         }
       ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "gt",
-          "value": 50,
-          "visible": false
-        }
-      ],
-      "timeRegions": [],
       "title": "Unknown Spawnpoints in the last 24h",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:1949",
-          "decimals": 0,
-          "format": "none",
-          "label": "Count",
-          "logBase": 1,
-          "min": "0",
-          "show": true
-        },
-        {
-          "$$hashKey": "object:1950",
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     }
   ],
   "refresh": "30s",
-  "schemaVersion": 35,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -892,6 +1291,6 @@
   "timezone": "",
   "title": "Poké Metrics",
   "uid": "wdilg2BWz",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
