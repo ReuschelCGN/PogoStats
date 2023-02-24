@@ -1,9 +1,9 @@
 # Webhook receiver for getting data from ATV devices
 # replacement for ATVdetails
-
+#
 __author__ = "GhostTalker and Apple314"
 __copyright__ = "Copyright 2022, The GhostTalker project"
-__version__ = "0.1.5.a"
+__version__ = "0.2.2"
 __status__ = "DEV"
 
 import os
@@ -12,20 +12,24 @@ import time
 import datetime
 import json
 import requests
+import configparser
 import pymysql
 from mysql.connector import Error
 from mysql.connector import pooling
 from flask import Flask, request
 from flask_caching import Cache
 
-## get env config
-_host = os.getenv('WH_HOST', '0.0.0.0')
-_port = os.getenv('WH_PORT', '5050')
-_mysqlhost = os.getenv('MYSQL_HOST', 'pgsdb')
-_mysqlport = os.getenv('MYSQL_PORT', '3306')
-_mysqldb = os.getenv('MYSQL_DATABASE', 'grafana')
-_mysqluser = os.getenv('MYSQL_USER', 'grafana')
-_mysqlpass = os.getenv('MYSQL_PASSWORD', 'changeme')
+## read config
+_config = configparser.ConfigParser()
+_rootdir = os.path.dirname(os.path.abspath('config.ini'))
+_config.read(_rootdir + "/config.ini")
+_host = _config.get("socketserver", "host", fallback='0.0.0.0')
+_port = _config.get("socketserver", "port", fallback='5050')
+_mysqlhost = _config.get("mysql", "mysqlhost", fallback='127.0.0.1')
+_mysqlport = _config.get("mysql", "mysqlport", fallback='3306')
+_mysqldb = _config.get("mysql", "mysqldb")
+_mysqluser = _config.get("mysql", "mysqluser")
+_mysqlpass = _config.get("mysql", "mysqlpass")
 
 ## set cache 
 config = {
@@ -89,8 +93,54 @@ cache = Cache(app)
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    if request.method == 'POST':
-        print("Data received from Webhook is: ", request.json)
+
+    if request.method == 'POST' and request.json["WHType"] == 'ATVMonitor':
+        print("Data received from ATV Monitor Webhook is: ", request.json)
+
+        # parse json data to SQL insert
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        deviceName = validate_string(request.json["deviceName"])
+        issue = validate_string(request.json["issue"])
+        action = validate_string(request.json["action"])
+        script = validate_string(request.json["script"])
+
+        insert_stmt_monitor = (
+            "INSERT INTO ATVMonitor (timestamp, deviceName, issue, action, script)"
+            "VALUES ( %s, %s, %s, %s, %s )"
+        )
+
+        data_monitor = ( str(timestamp), str(deviceName), str(issue), str(action), str(script) )
+
+        try:
+            connection_object = connection_pool.get_connection()
+
+            # Get connection object from a pool
+            if connection_object.is_connected():
+                print("MySQL pool connection is open.")
+                # Executing the SQL command
+                cursor = connection_object.cursor()
+                cursor.execute(insert_stmt_monitor, data_monitor)
+                connection_object.commit()
+                print("Monitor Data inserted")
+
+        except Exception as e:
+            # Rolling back in case of error
+            connection_object.rollback()
+            print(e)
+            print("Monitor Data NOT inserted. rollbacked.")
+
+        finally:
+            # closing database connection.
+            if connection_object.is_connected():
+                cursor.close()
+                connection_object.close()
+                print("MySQL pool connection is closed.")
+
+        return "Monitor Webhook received!"
+
+
+    if request.method == 'POST' and request.json["WHType"] == 'ATVDetails':
+        print("Data received from ATV Details Webhook is: ", request.json)
 
         # parse json data to SQL insert
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -99,6 +149,7 @@ def webhook():
         productmodel = validate_string(request.json["productmodel"])
         atlasSh = validate_string(request.json["atlasSh"])
         atlas55 = validate_string(request.json["atlas55"])
+        atlas42 = validate_string(request.json["atlas42"])
         monitor = validate_string(request.json["monitor"])
         pogo = validate_string(request.json["pogo"])
         atlas = validate_string(request.json["atlas"])
@@ -133,6 +184,20 @@ def webhook():
         email = validate_string(request.json["email"])
         rdmUrl = validate_string(request.json["rdmUrl"])
         onBoot = validate_string(request.json["onBoot"])
+        a_pogoStarted = validate_string(request.json["a_pogoStarted"])
+        a_injection = validate_string(request.json["a_injection"])
+        a_ptcLogin = validate_string(request.json["a_ptcLogin"])
+        a_atlasCrash = validate_string(request.json["a_atlasCrash"])
+        a_rdmError = validate_string(request.json["a_rdmError"])
+        m_noInternet = validate_string(request.json["m_noInternet"])
+        m_noConfig = validate_string(request.json["m_noConfig"])
+        m_noLicense = validate_string(request.json["m_noLicense"])
+        m_atlasDied = validate_string(request.json["m_atlasDied"])
+        m_pogoDied = validate_string(request.json["m_pogoDied"])
+        m_deviceOffline = validate_string(request.json["m_deviceOffline"])
+        m_noRDM = validate_string(request.json["m_noRDM"])
+        m_noFocus = validate_string(request.json["m_noFocus"])
+        m_unknown = validate_string(request.json["m_unknown"])
 
         insert_stmt1 = "\
             INSERT INTO ATVsummary \
@@ -142,6 +207,7 @@ def webhook():
                 productmodel, \
                 atlasSh, \
                 55atlas, \
+                42atlas, \
                 monitor, \
                 pogo, \
                 atlas, \
@@ -162,7 +228,7 @@ def webhook():
                 token, \
                 email, \
                 rdmUrl, \
-                onBoot) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+                onBoot) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
             ON DUPLICATE KEY UPDATE \
                 timestamp = VALUES(timestamp), \
                 deviceName = VALUES(deviceName), \
@@ -170,6 +236,7 @@ def webhook():
                 productmodel = VALUES(productmodel), \
                 atlasSh = VALUES(atlasSh), \
                 55atlas = VALUES(55atlas), \
+                42atlas = VALUES(42atlas), \
                 monitor = VALUES(monitor), \
                 pogo = VALUES(pogo), \
                 atlas = VALUES(atlas), \
@@ -192,18 +259,58 @@ def webhook():
                 rdmUrl = VALUES(rdmUrl), \
                 onBoot = VALUES(onBoot)"
 
-        data1 = (str(timestamp), str(deviceName), str(arch), str(productmodel), str(atlasSh), str(atlas55), str(monitor), str(pogo), str(atlas), str(temperature), str(magisk), str(magisk_modules), str(macw), str(mace), str(ip), str(ext_ip), str(hostname), str(diskSysPct), str(diskDataPct), str(whversion), str(numPogo), str(reboot), str(authBearer), str(token), str(email), str(rdmUrl), str(onBoot) )
+        data1 = (str(timestamp), str(deviceName), str(arch), str(productmodel), str(atlasSh), str(atlas55), str(atlas42), str(monitor), str(pogo), str(atlas), str(temperature), str(magisk), str(magisk_modules), str(macw), str(mace), str(ip), str(ext_ip), str(hostname), str(diskSysPct), str(diskDataPct), str(whversion), str(numPogo), str(reboot), str(authBearer), str(token), str(email), str(rdmUrl), str(onBoot) )
 
         insert_stmt2 = (
             "INSERT INTO ATVstats (timestamp, RPL, deviceName, temperature, memTot, memFree, memAv, memPogo, memAtlas, cpuSys, cpuUser, cpuL5, cpuL10, cpuL15, cpuPogoPct, cpuApct, diskSysPct, diskDataPct)"
             "VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"
-        )        
-        
+        )
+
         data2 = (str(timestamp), str(RPL), str(deviceName), str(temperature), str(memTot), str(memFree), str(memAv), str(memPogo), str(memAtlas), str(cpuSys), str(cpuUser), str(cpuL5), str(cpuL10), str(cpuL15), str(cpuPogoPct), str(cpuApct), str(diskSysPct), str(diskDataPct) )
+
+        insert_stmt3 = "\
+            INSERT INTO ATVlogs \
+                (timestamp, \
+                deviceName, \
+                reboot, \
+                a_pogoStarted, \
+                a_injection, \
+                a_ptcLogin, \
+                a_atlasCrash, \
+                a_rdmError, \
+                m_noInternet, \
+                m_noConfig, \
+                m_noLicense, \
+                m_atlasDied, \
+                m_pogoDied, \
+                m_deviceOffline, \
+                m_noRDM, \
+                m_noFocus, \
+                m_unknown) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+            ON DUPLICATE KEY UPDATE \
+                timestamp = VALUES(timestamp), \
+                deviceName = VALUES(deviceName), \
+                reboot = VALUES(reboot), \
+                a_pogoStarted = VALUES(a_pogoStarted), \
+                a_injection = VALUES(a_injection), \
+                a_ptcLogin = VALUES(a_ptcLogin), \
+                a_atlasCrash = VALUES(a_atlasCrash), \
+                a_rdmError = VALUES(a_rdmError), \
+                m_noInternet = VALUES(m_noInternet), \
+                m_noConfig = VALUES(m_noConfig), \
+                m_noLicense = VALUES(m_noLicense), \
+                m_atlasDied = VALUES(m_atlasDied), \
+                m_pogoDied = VALUES(m_pogoDied), \
+                m_deviceOffline = VALUES(m_deviceOffline), \
+                m_noRDM = VALUES(m_noRDM), \
+                m_noFocus = VALUES(m_noFocus), \
+                m_unknown = VALUES(m_unknown)"
+
+        data3 = (str(timestamp), str(deviceName), str(reboot), str(a_pogoStarted), str(a_injection), str(a_ptcLogin), str(a_atlasCrash), str(a_rdmError), str(m_noInternet), str(m_noConfig), str(m_noLicense), str(m_atlasDied), str(m_pogoDied), str(m_deviceOffline), str(m_noRDM), str(m_noFocus), str(m_unknown) )
 
         try:
             connection_object = connection_pool.get_connection()
-        
+
             # Get connection object from a pool
             if connection_object.is_connected():
                 print("MySQL pool connection is open.")
@@ -211,14 +318,15 @@ def webhook():
                 cursor = connection_object.cursor()
                 cursor.execute(insert_stmt1, data1)
                 cursor.execute(insert_stmt2, data2)
+                cursor.execute(insert_stmt3, data3)
                 connection_object.commit()
-                print("Data inserted")
-                
+                print("ATVDetails Data inserted")
+
         except Exception as e:
             # Rolling back in case of error
             connection_object.rollback()
             print(e)
-            print("Data NOT inserted. rollbacked.")
+            print("ATVDetails Data NOT inserted. rollbacked.")
 
         finally:
             # closing database connection.
@@ -227,7 +335,7 @@ def webhook():
                 connection_object.close()
                 print("MySQL pool connection is closed.")
 
-        return "Webhook received!"
+        return "ATVDetails Webhook received!"
 
 # start scheduling
 try:
