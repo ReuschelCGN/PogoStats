@@ -600,6 +600,82 @@
               "type": "macro"
             }
           ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  raids_9 AS \"Level 9\"\nFROM raid_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "H",
+          "select": [
+            [
+              {
+                "params": [
+                  "raids_9"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Level 9"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "raid_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  raids_10 AS \"Level 10\"\nFROM raid_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "I",
+          "select": [
+            [
+              {
+                "params": [
+                  "raids_10"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Level 10"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "raid_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
       "title": "Current Raids",
@@ -843,6 +919,44 @@
               {
                 "params": [
                   "NPC Stops"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "tr_data",
+          "timeColumn": "timestamp",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "000000001"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  kecleon AS \"Kecleon Eventstops\"\nFROM tr_data\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
+          "refId": "E",
+          "select": [
+            [
+              {
+                "params": [
+                  "kecleon"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Kecleon Eventstops"
                 ],
                 "type": "alias"
               }
