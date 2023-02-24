@@ -61,7 +61,7 @@ function check_tr () {
     if [ $SCANNER_TYPE == "MAD" ]; then
         incident=$(scanner_sql "SELECT COUNT(*) FROM pokestop WHERE incident_expiration > UTC_TIMESTAMP()")
     elif [ $SCANNER_TYPE == "RDM" ]; then
-        incident=$(scanner_sql "SELECT COUNT(*) total, SUM(CASE WHEN ((\`character\` > 0 AND \`character\` <= 40) OR (\`character\` >= 47 AND \`character\` < 100)) THEN 1 ELSE 0 END) grunt, SUM(CASE WHEN \`character\` >= 41 AND \`character\` <= 46 THEN 1 ELSE 0 END) boss, SUM(CASE WHEN \`character\` > 499 THEN 1 ELSE 0 END) npc, SUM(CASE WHEN \`display_type\` = 8 THEN 1 ELSE 0 END) kecleon  FROM incident")
+        incident=$(scanner_sql "SELECT COUNT(*) total, SUM(CASE WHEN ((\`character\` > 0 AND \`character\` <= 40) OR (\`character\` >= 47 AND \`character\` < 100)) THEN 1 ELSE 0 END) grunt, SUM(CASE WHEN \`character\` >= 41 AND \`character\` <= 46 THEN 1 ELSE 0 END) boss, SUM(CASE WHEN \`character\` > 499 THEN 1 ELSE 0 END) npc, SUM(CASE WHEN \`display_type\` = 8 THEN 1 ELSE 0 END) kecleon FROM incident")
     fi
     array=($(for i in $incident; do echo $i; done))
     echo "$(date +'%F %T') | Current Team GO Rocket Stops: ${array[0]}"
@@ -109,7 +109,7 @@ function check_raids () {
     fi
     array=($(for i in $raids; do echo $i; done))
     echo "$(date +'%F %T') | Current total Raids: ${array[0]}"
-    grafana_sql 'INSERT INTO raid_data(timestamp,raids_total,raids_1,raids_2,raids_3,raids_4,raids_5,raids_6,raids_7,raids_8,raids_9,raids_10 VALUES(now(),'${array[0]}','${array[1]}','${array[2]}','${array[3]}','${array[4]}','${array[5]}','${array[6]}','${array[7]}','${array[8]}','${array[9]}','${array[10]}')'
+    grafana_sql 'INSERT INTO raid_data(timestamp,raids_total,raids_1,raids_2,raids_3,raids_4,raids_5,raids_6,raids_7,raids_8,raids_9,raids_10) VALUES(now(),'${array[0]}','${array[1]}','${array[2]}','${array[3]}','${array[4]}','${array[5]}','${array[6]}','${array[7]}','${array[8]}','${array[9]}','${array[10]}')'
 }
 
 function check_spawnpoints () {
